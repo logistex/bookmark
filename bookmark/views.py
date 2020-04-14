@@ -1,7 +1,7 @@
 # bookmark/views.py
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
 
@@ -10,6 +10,7 @@ from .models import Bookmark
 
 class BookmarkListView(ListView):
     model = Bookmark
+    paginate_by = 5  # 페이징 기능
 
 
 class BookmarkCreateView(CreateView):
@@ -21,3 +22,15 @@ class BookmarkCreateView(CreateView):
 
 class BookmarkDetailView(DetailView):
     model = Bookmark
+
+
+class BookmarkUpdateView(UpdateView):
+    model = Bookmark
+    fields = ['site_name', 'url']
+    template_name_suffix = '_update'  # 따라서 bookmark_update.html이어야 함
+    success_url = reverse_lazy('list')
+
+
+class BookmarkDeleteView(DeleteView):
+    model = Bookmark
+    success_url = reverse_lazy('list')
