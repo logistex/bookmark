@@ -5,7 +5,7 @@
 
 {% block content %}
     <div class="btn-group">
-        <a href="{% url 'add' %}" class="btn btn-info">Add Bookmark</a>
+        <a href="{% url 'bookmark:add' %}" class="btn btn-primary">Add Bookmark</a>
     </div>
     <p></p>
     <table class="table">
@@ -25,13 +25,13 @@
                         {{ bookmark.id }}
                     </td>
                     <td>
-                        <a href="{% url 'detail'  pk=bookmark.id %}">{{bookmark.site_name}}</a>
+                        <a href="{% url 'bookmark:detail'  pk=bookmark.id %}">{{bookmark.site_name}}</a>
                     </td>
                     <td>
                         <a href="{{bookmark.url}}" target="_blank">{{bookmark.url}}</a>
                     </td>
-                    <td><a href="{% url 'update' pk=bookmark.id %}" class="btn btn-success btn-sm">Modify</a></td>
-                    <td><a href="{% url 'delete' pk=bookmark.id %}" class="btn btn-danger btn-sm">Delete</a></td>
+                    <td><a href="{% url 'bookmark:update' pk=bookmark.id %}" class="btn btn-success btn-sm">Modify</a></td>
+                    <td><a href="{% url 'bookmark:delete' pk=bookmark.id %}" class="btn btn-danger btn-sm">Delete</a></td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -42,7 +42,7 @@
     <ul class="pagination justify-content-center pagination-sm">
         {% if page_obj.has_previous %}
             <li class="page-item">
-              <a class="page-link" href="{% url 'list' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+              <a class="page-link" href="{% url 'bookmark:list' %}?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
             </li>
         {% else %}
             <li class="page-item disabled">
@@ -58,7 +58,7 @@
 
         {% if page_obj.has_next %}
             <li class="page-item">
-              <a class="page-link" href="{% url 'list' %}?page={{ page_obj.next_page_number }}">Next</a>
+              <a class="page-link" href="{% url 'bookmark:list' %}?page={{ page_obj.next_page_number }}">Next</a>
             </li>
         {% else %}
             <li class="page-item disabled">

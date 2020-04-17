@@ -15,10 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from bookmark.views import BookmarkListView
+from bookmark import views as bookmark_views
+# import bookmark  # 추가?
 
 urlpatterns = [
-    path('', BookmarkListView.as_view(), name='list'),
-    path('bookmark/', include('bookmark.urls')),
+    path('', bookmark_views.home, name='home'),
+    # path('bookmark/', include('bookmark.urls')),
+    path('bookmark/', include('bookmark.urls', namespace='bookmark')),
+    path('polls/', include('polls.urls', namespace='polls')),
     path('admin/', admin.site.urls),
 ]
