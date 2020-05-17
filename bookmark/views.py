@@ -7,6 +7,7 @@ from django.shortcuts import render
 
 from .models import Bookmark
 from polls import models as polls_models
+from photo import models as photo_models
 
 
 # class HomeView(DetailView):
@@ -16,11 +17,12 @@ from polls import models as polls_models
 def home(request):
     question = polls_models.Question.objects.latest('id')
     bookmarks = Bookmark.objects.order_by('-id')[0:3]
+    photos = photo_models.Photo.objects.all()[0:3]
     votes = {}
     # for choice in question.choice_set.all():
     #     votes[str(choice.id)] = '+' * choice.votes
     return render(request, 'home.html',
-                  {'question': question, 'bookmarks': bookmarks,
+                  {'question': question, 'bookmarks': bookmarks, 'photos': photos,
                    # 'votes': votes
                    }, )
 

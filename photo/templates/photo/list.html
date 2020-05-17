@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}- List{% endblock %}
+
+{% block content %}
+    <div class="btn-group">
+        <a href="{% url 'photo:photo_upload' %}" class="btn btn-primary">사진 추가 등록</a>
+    </div>
+    <p></p>
+    {% for post in photos %}
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8 panel panel-default">
+                <p><img src="{{post.photo.url}}" style="width: 50%;"></p>
+                <button type="button" class="btn btn-xs btn-info">
+                    {{post.author.username}}
+                </button>
+                <p>{{post.text|linebreaksbr}}</p>
+                <p class="text-right">
+                    <a href="{% url 'photo:photo_detail' pk=post.id %}" class="btn btn-xs btn-success">댓글달기</a>
+                </p>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    {% endfor %}
+{% endblock %}
