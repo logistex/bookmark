@@ -17,7 +17,7 @@ from chart.views import ticket_dump
 #     template_name = 'home.html'
 def home(request):
     question = polls_models.Question.objects.latest('id')
-    bookmarks = Bookmark.objects.order_by('-id')[0:3]
+    bookmarks = Bookmark.objects.order_by('-id')[0:5]
     photos = photo_models.Photo.objects.all()[0:3]
     dump = ticket_dump()
     return render(request, 'home.html',
