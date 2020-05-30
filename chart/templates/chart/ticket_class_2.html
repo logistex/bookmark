@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}- ticket_class_2{% endblock %}
+
+{% block content %}
+    <div id="container" style="margin-top: 20px;"></div>
+    <p style="text-align : center">
+        생존 및 비 생존 인원 수를 </br>
+        수직 막대(column) 차트로 작성한 경우
+    </p>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script>
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column',
+                borderColor: '#EBBA95',
+                borderWidth: 3,
+            },
+            title: {
+                text: 'Titanic Survivors by Ticket Class'
+            },
+            xAxis: {
+                categories: {{ categories|safe }}  /* safe 필터 */
+            },
+            series: [{
+                name: 'Survived',
+                data: {{ survived_series }},
+                color: 'green'
+            }, {
+                name: 'Not survived',
+                data: {{ not_survived_series }},
+                color: 'red'
+            }]
+        });
+    </script>
+{% endblock %}

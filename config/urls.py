@@ -18,12 +18,14 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
 from bookmark import views as bookmark_views
+from chart import views 
 
 urlpatterns = [
 	path('', bookmark_views.home, name='home'),
     path('bookmark/', include('bookmark.urls', namespace='bookmark')),
     path('polls/', include('polls.urls', namespace='polls')),
     path('photo/', include('photo.urls')),
+    path('chart/', include('chart.urls')),
     path('accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls),
 ]

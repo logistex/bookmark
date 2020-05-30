@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}- Chart Home{% endblock %}
+
+{% block content %}
+    <ul class="nav">
+        <li><a href="{% url 'chart:world_population' %}">World Population</a></li>
+        <li><a href="{% url 'chart:ticket_class_view_1' %}">Ticket Class #1</a></li>
+        <li><a href="{% url 'chart:ticket_class_view_2' %}">Ticket Class #2</a></li>
+        <li><a href="{% url 'chart:ticket_class_view_3' %}">Ticket Class #3</a></li>
+        <li><a href="{% url 'chart:json_example' %}">JSON Example</a></li>
+    </ul>
+    메뉴 항목을 선택하세요.
+{% endblock %}

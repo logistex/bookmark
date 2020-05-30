@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}- World Population{% endblock %}
+
+{% block content %}
+  </br>
+  <div id="container"></div>
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+  <script>
+    Highcharts.chart('container', {
+        chart: {
+            type: 'bar',
+            borderColor: '#EBBA95',
+            borderWidth: 3,
+        },
+        title: {
+            text: '지역에 따른 세계 인구 변동'
+        },
+        xAxis: {
+            categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania']
+        },
+        yAxis: {
+            title: {
+                text: '인구 수 [단위: 백만 명]'
+            }
+        },
+        series: [{
+            name: 'Year 1800',
+            data: [107, 31, 635, 203, 2]
+        }, {
+            name: 'Year 1900',
+            data: [133, 156, 947, 408, 6]
+        }, {
+            name: 'Year 2012',
+            data: [1052, 954, 4250, 740, 38]
+        }]
+    });
+  </script>
+{% endblock %}

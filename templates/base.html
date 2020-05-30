@@ -35,6 +35,16 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'photo:photo_list' %}" >디스타그램</a>
                     </li>
+                    <li class=nav-item">
+                        <a class="nav-link" data-toggle="dropdown">차트</a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="{% url 'chart:world_population' %}">World Population</a></li>
+                            <li><a href="{% url 'chart:ticket_class_view_1' %}">Ticket Class #1</a></li>
+                            <li><a href="{% url 'chart:ticket_class_view_2' %}">Ticket Class #2</a></li>
+                            <li><a href="{% url 'chart:ticket_class_view_3' %}">Ticket Class #3</a></li>
+                            <li><a href="{% url 'chart:json_example' %}">JSON Example</a></li>
+                        </ul>
+                    </li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
@@ -77,21 +87,21 @@
     <!--    </footer>-->
 </div>
 <script>
-$(document).ready(function () {
-    $(function(){
-        var current_page_URL = location.href;
-        $( "a" ).each(function() {
-            if ($(this).attr("href") !== "#") {
-                var target_URL = $(this).prop("href");
-                if (target_URL == current_page_URL) {
-                    $('nav a').parents('li, ul').removeClass('active');
-                    $(this).parent('li').addClass('active');
-                    return false;
-                }
-            }
-        });
-    });
-});
+{#$(document).ready(function () {#}
+{#    $(function(){#}
+{#        var current_page_URL = location.href;#}
+{#        $( "a" ).each(function() {#}
+{#            if ($(this).attr("href") !== "#") {#}
+{#                var target_URL = $(this).prop("href");#}
+{#                if (target_URL == current_page_URL) {#}
+{#                    $('nav a').parents('li, ul').removeClass('active');#}
+{#                    $(this).parent('li').addClass('active');#}
+{#                    return false;#}
+{#                }#}
+{#            }#}
+{#        });#}
+{#    });#}
+{#});#}
 </script>
 </body>
 </html>
