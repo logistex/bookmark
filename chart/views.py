@@ -204,3 +204,130 @@ def chart_data(request):  # 접속 경로 'json-example/data/'에 대응하는 �
 
     return JsonResponse(chart)
 
+
+import pandas as pd
+from datetime import timezone, datetime
+import arrow
+
+def myconverter(o):
+    if isinstance(o, datetime):
+        return o.__str__()
+
+
+def covid_dump():
+    # Section 2 - Loading and Selecting Data
+    df = pd.read_csv('https://raw.githubusercontent.com/datasets/covid-19/master/data/countries-aggregated.csv',
+                     parse_dates=['Date'])
+    # print(df.head())
+    # print(len(df), '행 x', len(df.columns), '열')
+    countries = ['Korea, South', 'Germany', 'United Kingdom', 'US', 'France']
+    df = df[df['Country'].isin(countries)]
+    # print(df.head())
+
+    # Section 3 - Creating a Summary Column
+    # df['Cases'] = df[['Confirmed', 'Recovered', 'Deaths']].sum(axis=1)
+    df['Cases'] = df[['Confirmed']].sum(axis=1)
+    # df['Cases'] = df[['Deaths']].sum(axis=1)
+
+    # Section 4 - Restructuring our Data
+    df = df.pivot(index='Date', columns='Country', values='Cases')
+    # countries 리스트 생성
+    countries = list(df.columns)
+    # df.reset_index()를 통하여 기존 인덱스 열을 데이터 열로 변경
+    covid = df.reset_index('Date')
+    # covid 인덱스와 columns를 새로 지정
+    covid.set_index(['Date'], inplace=True)
+    covid.columns = countries
+    # print(covid.head())
+
+    # Section 5 - Calculating Rates per 1,000,000
+    populations = {'Korea, South': 51269185, 'Germany': 83783942, 'United Kingdom': 67886011, 'US': 331002651,
+                   'France': 65273511}
+    percapita = covid.copy()
+    for country in list(percapita.columns):
+        percapita[country] = percapita[country] / populations[country] * 1000000
+
+    # date_line = list()
+    # for d in list(percapita.index):
+    #     date_line.append(d.strftime('%Y-%m-%d'))
+    # print(date_line)
+    date_line = percapita.index.tolist()
+    # print('###')
+
+    my_data = list()
+    for country in list(percapita.columns):
+        my_series = list()
+        for d in percapita.index.tolist():
+            # print(country, d.year, d.month, d.day, round(percapita.loc[d][country], 1))
+            # print(country, d, round(percapita.loc[d][country], 1))
+            # t = int(datetime.datetime.strptime(d, '%d.%m.%Y %H:%M:%S,%f')) * 1000
+            # dt = datetime.date(d.year, d.month, d.day)
+            # timestamp = dt.replace(tzinfo=timezone.utc).timestamp()
+            my_series.append([arrow.get(d.year, d.month, d.day).timestamp * 1000, round(percapita.loc[d][country], 1)])
+
+        my_dict = dict()
+        my_dict['country'] = country
+        my_dict['series'] = my_series
+        my_data.append(my_dict)
+    # for my_d in my_data:
+    #     print(my_d['country'], my_d['series'], '\n')
+    print(list(map(
+        lambda entry: {'name': entry['country'], 'data': entry['series']},
+        my_data)))
+
+
+        # mydata.append([d, percapita[country]])
+    # print(list(map(
+    #         lambda country: {'name': country, 'data': percapita[country].values.tolist()},
+    #         percapita.columns)))
+
+
+    # Section 6 - highchart
+    chart = {
+        'chart': {
+            'type': 'spline',
+            'borderColor': '#9DB0AC',
+            'borderWidth': 3,
+        },
+        'title': {'text': 'COVID-19 확진자 발생율'},
+        'subtitle': {'text': 'Source: Johns Hopkins University Center for Systems Science and Engineering'},
+        'xAxis': {'type': 'datetime',
+                  # 'dateTimeLabelFormats': {'month': '%b \'%y'}
+        },
+        'yAxis': [{  # Primary yAxis
+            'labels': {
+                'format': '{value} 건/백만 명',
+                'style': {'color': 'blue'}
+            }, 'title': {
+                'text': '합계 건수',
+                'style': {'color': 'blue'}
+            },
+        }, ],
+        'plotOptions': {
+            'spline': {
+                'lineWidth': 3,
+                'states': {
+                    'hover': {'lineWidth': 5}
+                },
+                # 'marker': {
+                #     'enabled': 'false'
+                # },
+                # 'dataLabels': {
+                #     'enabled': 'False'
+                # },
+            }
+        },
+        'series': list(map(
+                    lambda entry: {'name': entry['country'], 'data': entry['series']},
+                    my_data)
+        ),
+        'navigation': {
+            'menuItemStyle': {'fontSize': '10px'}
+        },
+    }
+    dump = json.dumps(chart, default=myconverter)
+    return dump
+
+
+def covid19_view_new(request):  # 방법 3
+    return render(request, 'chart/covid19_new.html', {'chart': covid_dump()})

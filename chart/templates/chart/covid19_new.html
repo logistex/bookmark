@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}- 차트 ticket_class_3{% endblock %}
+
+{% block content %}
+    <div id="container" style="margin-top: 20px;"></div>
+    </br>
+    <ul>
+        <li>가상 환경</li>
+        <ul>
+            <li>conda activate dstagram</li>
+            <li>conda install pandas</li>
+            <li>conda install arrow</li>
+        </ul>
+        <li>x 축을 날짜로 설정</li>
+        <ul>
+            <li>하이차트 날짜는 밀리초 단위</li>
+            <li>판다스 날짜는 인덱스</li>
+            <li>arrow.get(d.year, d.month, d.day).timestamp * 1000</li>
+        </ul>
+    </ul>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script>
+        Highcharts.chart('container', {{ chart|safe }});
+    </script>
+{% endblock %}

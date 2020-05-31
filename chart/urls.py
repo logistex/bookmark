@@ -17,6 +17,7 @@ urlpatterns = [
     path('json-example/', json_example, name='json_example'),
     path('json-example/data/', chart_data, name='chart_data'),
     path('covid19/', covid19_view, name='covid19'),
+    path('covid19new/', covid19_view_new, name='covid19new'),
 ]
 
 
