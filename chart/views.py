@@ -13,6 +13,10 @@ def world_population(request):
     return render(request, 'chart/world_population.html')
 
 
+def covid19_view(request):
+    return render(request, 'chart/covid19.html')
+
+
 def ticket_class_view_1(request):  # 방법 1
     print('방법1')
     dataset = Passenger.objects \
@@ -80,7 +84,7 @@ def ticket_dump():
     chart = {
         'chart': {
             'zoomType': 'xy',
-            'borderColor': '#EBBA95',
+            'borderColor': '#9DB0AC',
             'borderWidth': 3,
         },
         'title': {'text': '좌석 등급에 따른 타이타닉 생존/비 생존 인원 및 생존율'},
@@ -182,7 +186,7 @@ def chart_data(request):  # 접속 경로 'json-example/data/'에 대응하는 �
     chart = {
         'chart': {
             'type': 'pie',
-            'borderColor': '#EBBA95',
+            'borderColor': '#9DB0AC',
             'borderWidth': 3,
         },
         'title': {'text': '승선 항구에 따른 타이타닉 승객 수'},

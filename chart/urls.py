@@ -16,6 +16,7 @@ urlpatterns = [
          world_population, name='world_population'),  # !!!
     path('json-example/', json_example, name='json_example'),
     path('json-example/data/', chart_data, name='chart_data'),
+    path('covid19/', covid19_view, name='covid19'),
 ]
 
 
